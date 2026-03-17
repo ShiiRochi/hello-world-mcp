@@ -1,1 +1,36 @@
-console.log('Happy developing ✨')
+/**
+ * Hello World MCP server.
+ * Debug with MCP Inspector: npm run inspect (UI) or npm run inspect:cli (CLI).
+ * API docs: https://context7.com/modelcontextprotocol/inspector
+ * @see docs/inspector.md
+ */
+import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
+
+const server = new McpServer({
+    name: "hello-world-mcp",
+    version: "1.0.0",
+});
+
+server.registerTool(
+    "hello",
+    {
+        description: "Returns a Hello World greeting",
+    },
+    async () => {
+        return {
+            content: [{ type: "text", text: "Hello World" }],
+        };
+    }
+);
+
+async function main() {
+    const transport = new StdioServerTransport();
+    await server.connect(transport);
+    console.error("Hello World MCP is running");
+}
+
+main().catch((error) => {
+    console.error("Fatal error in main():", error);
+    process.exit(1);
+});
