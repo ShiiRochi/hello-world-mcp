@@ -12,3 +12,5 @@ yarn-error.log*
 .idea/**
 .cursor/**
 build
+
+.DS_Store
